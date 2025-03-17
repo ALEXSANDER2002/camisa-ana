@@ -486,155 +486,39 @@ VALUES (
   }
 
   return (
-    <div className="space-y-8 animate-fade-in">
-      {/* Botão de gerar PDF */}
-      <div className="flex justify-end">
-        <Button
-          onClick={generatePDF}
-          variant="outline"
-          size="sm"
-          className="bg-white hover:bg-gray-50 text-pink-600 border-pink-200"
-        >
-          <FileText className="h-4 w-4 mr-2" />
-          Gerar PDF
-        </Button>
-      </div>
-
-      {/* Estatísticas */}
-      {shirts.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <Card className="dashboard-card">
-            <CardContent className="p-6 flex items-center">
-              <div className="rounded-full bg-pink-100 p-3 mr-4">
-                <Package className="h-6 w-6 text-pink-700" />
-              </div>
-              <div>
-                <p className="text-sm text-muted-foreground">Total de Camisetas</p>
-                <h3 className="text-2xl font-bold">{totalShirts}</h3>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="dashboard-card">
-            <CardContent className="p-6 flex items-center">
-              <div className="rounded-full bg-purple-100 p-3 mr-4">
-                <DollarSign className="h-6 w-6 text-purple-700" />
-              </div>
-              <div>
-                <p className="text-sm text-muted-foreground">Valor Total</p>
-                <h3 className="text-2xl font-bold">R$ {totalValue.toFixed(2)}</h3>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="dashboard-card">
-            <CardContent className="p-6 flex items-center">
-              <div className="rounded-full bg-pink-100 p-3 mr-4">
-                <Tag className="h-6 w-6 text-pink-700" />
-              </div>
-              <div>
-                <p className="text-sm text-muted-foreground">Cores Diferentes</p>
-                <h3 className="text-2xl font-bold">{uniqueColors}</h3>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="dashboard-card">
-            <CardContent className="p-6 flex items-center">
-              <div className="rounded-full bg-purple-100 p-3 mr-4">
-                <Sparkles className="h-6 w-6 text-purple-700" />
-              </div>
-              <div>
-                <p className="text-sm text-muted-foreground">Clientes</p>
-                <h3 className="text-2xl font-bold">{shirts.length}</h3>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      )}
-
-      {/* Estatísticas de pagamento */}
-      {shirts.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-          <Card className="dashboard-card">
-            <CardContent className="p-6">
-              <h3 className="text-lg font-semibold mb-4 flex items-center">
-                <Heart className="h-5 w-5 mr-2 text-pink-500" />
-                Status de Pagamento
-              </h3>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <div className="rounded-full bg-green-100 p-2 mr-3">
-                    <CheckCircle className="h-5 w-5 text-green-700" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">Pagos</p>
-                    <p className="text-xl font-bold">{paidShirts}</p>
-                  </div>
-                </div>
-                <div className="flex items-center">
-                  <div className="rounded-full bg-red-100 p-2 mr-3">
-                    <XCircle className="h-5 w-5 text-red-700" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">Não Pagos</p>
-                    <p className="text-xl font-bold">{unpaidShirts}</p>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="dashboard-card">
-            <CardContent className="p-6">
-              <h3 className="text-lg font-semibold mb-4 flex items-center">
-                <CreditCard className="h-5 w-5 mr-2 text-pink-500" />
-                Valores por Status
-              </h3>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <div className="rounded-full bg-green-100 p-2 mr-3">
-                    <CreditCard className="h-5 w-5 text-green-700" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">Valor Pago</p>
-                    <p className="text-xl font-bold">R$ {paidValue.toFixed(2)}</p>
-                  </div>
-                </div>
-                <div className="flex items-center">
-                  <div className="rounded-full bg-red-100 p-2 mr-3">
-                    <CreditCard className="h-5 w-5 text-red-700" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">Valor a Receber</p>
-                    <p className="text-xl font-bold">R$ {unpaidValue.toFixed(2)}</p>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      )}
-
+    <div className="space-y-6 animate-fade-in">
       {/* Barra de pesquisa e filtros */}
       <div className="bg-white p-4 rounded-xl shadow-sm border border-pink-100 mb-6 feminine-shadow">
-        <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
-          <div className="relative w-full sm:w-96">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Buscar por nome, cor ou material..."
-              className="pl-9 border-pink-200 focus:border-pink-400"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
+        <div className="flex flex-col gap-4">
+          {/* Primeira linha: Busca e Gerar PDF */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-between items-stretch sm:items-center">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                type="search"
+                placeholder="Buscar por nome, cor ou material..."
+                className="pl-9 border-pink-200 focus:border-pink-400 w-full"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            <Button
+              onClick={generatePDF}
+              variant="outline"
+              size="default"
+              className="bg-white hover:bg-gray-50 text-pink-600 border-pink-200 w-full sm:w-auto"
+            >
+              <FileText className="h-4 w-4 mr-2" />
+              Gerar PDF
+            </Button>
           </div>
 
-          <div className="flex flex-wrap gap-2 w-full sm:w-auto">
+          {/* Segunda linha: Filtros e Ordenação */}
+          <div className="flex flex-wrap gap-2">
             <Button
               variant="outline"
               onClick={() => setIsFilterOpen(true)}
-              className="flex-1 sm:flex-none border-dashed border-pink-200"
+              className="flex-1 sm:flex-none border-dashed border-pink-200 min-w-[120px]"
             >
               <SlidersHorizontal className="h-4 w-4 mr-2" />
               Filtros
@@ -645,9 +529,9 @@ VALUES (
               )}
             </Button>
 
-            <div className="flex-1 sm:flex-none">
+            <div className="flex-1 sm:flex-none min-w-[140px]">
               <Select value={sortField} onValueChange={setSortField}>
-                <SelectTrigger className="min-w-[140px] border-pink-200">
+                <SelectTrigger className="border-pink-200 w-full">
                   <SelectValue placeholder="Ordenar por" />
                 </SelectTrigger>
                 <SelectContent>
@@ -676,6 +560,122 @@ VALUES (
           </div>
         </div>
       </div>
+
+      {/* Cards de estatísticas com grid responsivo */}
+      {shirts.length > 0 && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <Card className="dashboard-card">
+            <CardContent className="p-4 sm:p-6 flex items-center">
+              <div className="rounded-full bg-pink-100 p-2 sm:p-3 mr-3 sm:mr-4">
+                <Package className="h-5 w-5 sm:h-6 sm:w-6 text-pink-700" />
+              </div>
+              <div>
+                <p className="text-xs sm:text-sm text-muted-foreground">Total de Camisetas</p>
+                <h3 className="text-xl sm:text-2xl font-bold">{totalShirts}</h3>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="dashboard-card">
+            <CardContent className="p-4 sm:p-6 flex items-center">
+              <div className="rounded-full bg-purple-100 p-2 sm:p-3 mr-3 sm:mr-4">
+                <DollarSign className="h-5 w-5 sm:h-6 sm:w-6 text-purple-700" />
+              </div>
+              <div>
+                <p className="text-xs sm:text-sm text-muted-foreground">Valor Total</p>
+                <h3 className="text-xl sm:text-2xl font-bold">R$ {totalValue.toFixed(2)}</h3>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="dashboard-card">
+            <CardContent className="p-4 sm:p-6 flex items-center">
+              <div className="rounded-full bg-pink-100 p-2 sm:p-3 mr-3 sm:mr-4">
+                <Tag className="h-5 w-5 sm:h-6 sm:w-6 text-pink-700" />
+              </div>
+              <div>
+                <p className="text-xs sm:text-sm text-muted-foreground">Cores Diferentes</p>
+                <h3 className="text-xl sm:text-2xl font-bold">{uniqueColors}</h3>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="dashboard-card">
+            <CardContent className="p-4 sm:p-6 flex items-center">
+              <div className="rounded-full bg-purple-100 p-2 sm:p-3 mr-3 sm:mr-4">
+                <Sparkles className="h-5 w-5 sm:h-6 sm:w-6 text-purple-700" />
+              </div>
+              <div>
+                <p className="text-xs sm:text-sm text-muted-foreground">Clientes</p>
+                <h3 className="text-xl sm:text-2xl font-bold">{shirts.length}</h3>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* Cards de estatísticas de pagamento com grid responsivo */}
+      {shirts.length > 0 && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Card className="dashboard-card">
+            <CardContent className="p-4 sm:p-6">
+              <h3 className="text-base sm:text-lg font-semibold mb-4 flex items-center">
+                <Heart className="h-4 w-4 sm:h-5 sm:w-5 mr-2 text-pink-500" />
+                Status de Pagamento
+              </h3>
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div className="flex items-center w-full sm:w-auto">
+                  <div className="rounded-full bg-green-100 p-2 mr-3">
+                    <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-green-700" />
+                  </div>
+                  <div>
+                    <p className="text-xs sm:text-sm text-muted-foreground">Pagos</p>
+                    <p className="text-lg sm:text-xl font-bold">{paidShirts}</p>
+                  </div>
+                </div>
+                <div className="flex items-center w-full sm:w-auto">
+                  <div className="rounded-full bg-red-100 p-2 mr-3">
+                    <XCircle className="h-4 w-4 sm:h-5 sm:w-5 text-red-700" />
+                  </div>
+                  <div>
+                    <p className="text-xs sm:text-sm text-muted-foreground">Não Pagos</p>
+                    <p className="text-lg sm:text-xl font-bold">{unpaidShirts}</p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="dashboard-card">
+            <CardContent className="p-4 sm:p-6">
+              <h3 className="text-base sm:text-lg font-semibold mb-4 flex items-center">
+                <CreditCard className="h-4 w-4 sm:h-5 sm:w-5 mr-2 text-pink-500" />
+                Valores por Status
+              </h3>
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div className="flex items-center w-full sm:w-auto">
+                  <div className="rounded-full bg-green-100 p-2 mr-3">
+                    <CreditCard className="h-4 w-4 sm:h-5 sm:w-5 text-green-700" />
+                  </div>
+                  <div>
+                    <p className="text-xs sm:text-sm text-muted-foreground">Valor Pago</p>
+                    <p className="text-lg sm:text-xl font-bold">R$ {paidValue.toFixed(2)}</p>
+                  </div>
+                </div>
+                <div className="flex items-center w-full sm:w-auto">
+                  <div className="rounded-full bg-red-100 p-2 mr-3">
+                    <CreditCard className="h-4 w-4 sm:h-5 sm:w-5 text-red-700" />
+                  </div>
+                  <div>
+                    <p className="text-xs sm:text-sm text-muted-foreground">Valor a Receber</p>
+                    <p className="text-lg sm:text-xl font-bold">R$ {unpaidValue.toFixed(2)}</p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
 
       {/* Tabela de inventário */}
       <InventoryTable
