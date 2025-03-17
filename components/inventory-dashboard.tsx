@@ -18,6 +18,7 @@ import {
   XCircle,
   Heart,
   Sparkles,
+  FileText,
 } from "lucide-react"
 import Link from "next/link"
 import InventoryTable from "@/components/inventory-table"
@@ -28,6 +29,7 @@ import type { Shirt } from "@/lib/types"
 import { getShirts, checkTableExists } from "@/lib/actions"
 import { Badge } from "@/components/ui/badge"
 import { isSupabaseConfigured } from "@/lib/supabase"
+import jsPDF from "jspdf"
 
 export default function InventoryDashboard() {
   const [shirts, setShirts] = useState<Shirt[]>([])
@@ -240,6 +242,83 @@ export default function InventoryDashboard() {
     .filter((shirt) => shirt.paid === false)
     .reduce((sum, shirt) => sum + shirt.price * shirt.quantity, 0)
 
+  const generatePDF = () => {
+    const doc = new jsPDF()
+    
+    // Configurar fonte para suportar caracteres especiais
+    doc.setFont("helvetica")
+    
+    // Título
+    doc.setFontSize(20)
+    doc.text("Relatório de Camisetas - Boutique Ana", 20, 20)
+    
+    // Data do relatório
+    doc.setFontSize(12)
+    doc.text(`Data: ${new Date().toLocaleDateString("pt-BR")}`, 20, 30)
+    
+    // Estatísticas gerais
+    doc.setFontSize(14)
+    doc.text("Estatísticas Gerais", 20, 45)
+    doc.setFontSize(12)
+    doc.text(`Total de Camisetas: ${totalShirts}`, 25, 55)
+    doc.text(`Valor Total: R$ ${totalValue.toFixed(2)}`, 25, 62)
+    doc.text(`Cores Diferentes: ${uniqueColors}`, 25, 69)
+    doc.text(`Total de Clientes: ${shirts.length}`, 25, 76)
+    
+    // Estatísticas de pagamento
+    doc.setFontSize(14)
+    doc.text("Status de Pagamento", 20, 91)
+    doc.setFontSize(12)
+    doc.text(`Pedidos Pagos: ${paidShirts}`, 25, 101)
+    doc.text(`Pedidos Não Pagos: ${unpaidShirts}`, 25, 108)
+    doc.text(`Valor Total Pago: R$ ${paidValue.toFixed(2)}`, 25, 115)
+    doc.text(`Valor a Receber: R$ ${unpaidValue.toFixed(2)}`, 25, 122)
+    
+    // Lista de camisetas
+    doc.addPage()
+    doc.setFontSize(16)
+    doc.text("Lista de Camisetas", 20, 20)
+    
+    // Cabeçalho da tabela
+    doc.setFontSize(11)
+    doc.text("Nome", 20, 35)
+    doc.text("Tamanho", 80, 35)
+    doc.text("Cor", 110, 35)
+    doc.text("Preço", 140, 35)
+    doc.text("Qtd", 170, 35)
+    
+    // Linha separadora
+    doc.line(20, 38, 190, 38)
+    
+    // Dados da tabela
+    let y = 45
+    shirts.forEach((shirt) => {
+      if (y > 270) { // Se estiver próximo ao fim da página
+        doc.addPage()
+        y = 20
+        // Recriar cabeçalho
+        doc.text("Nome", 20, y)
+        doc.text("Tamanho", 80, y)
+        doc.text("Cor", 110, y)
+        doc.text("Preço", 140, y)
+        doc.text("Qtd", 170, y)
+        doc.line(20, y + 3, 190, y + 3)
+        y += 10
+      }
+      
+      doc.setFontSize(10)
+      doc.text(shirt.name.substring(0, 25), 20, y)
+      doc.text(shirt.size, 80, y)
+      doc.text(shirt.color, 110, y)
+      doc.text(`R$ ${shirt.price.toFixed(2)}`, 140, y)
+      doc.text(shirt.quantity.toString(), 170, y)
+      y += 7
+    })
+    
+    // Salvar o PDF
+    doc.save("relatorio-camisetas.pdf")
+  }
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -408,6 +487,19 @@ VALUES (
 
   return (
     <div className="space-y-8 animate-fade-in">
+      {/* Botão de gerar PDF */}
+      <div className="flex justify-end">
+        <Button
+          onClick={generatePDF}
+          variant="outline"
+          size="sm"
+          className="bg-white hover:bg-gray-50 text-pink-600 border-pink-200"
+        >
+          <FileText className="h-4 w-4 mr-2" />
+          Gerar PDF
+        </Button>
+      </div>
+
       {/* Estatísticas */}
       {shirts.length > 0 && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
@@ -579,13 +671,6 @@ VALUES (
 
             <Button onClick={() => setIsFormOpen(true)} className="flex-1 sm:flex-none bg-pink-500 hover:bg-pink-600">
               <PlusCircle className="h-4 w-4 mr-2" />
-              Adicionar
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      {/*  />
               Adicionar
             </Button>
           </div>

@@ -2,8 +2,7 @@ import { Suspense } from "react"
 import Link from "next/link"
 import InventoryDashboard from "@/components/inventory-dashboard"
 import { LoadingSpinner } from "@/components/loading-spinner"
-import { Button } from "@/components/ui/button"
-import { Settings, Heart } from "lucide-react"
+import { Heart } from "lucide-react"
 
 export default function Home() {
   return (
@@ -14,12 +13,6 @@ export default function Home() {
             <Heart className="h-8 w-8 mr-3" />
             Boutique Ana
           </h1>
-          <Link href="/setup">
-            <Button variant="outline" size="sm" className="bg-white/20 hover:bg-white/30 text-white border-white/30">
-              <Settings className="h-4 w-4 mr-2" />
-              Configurar
-            </Button>
-          </Link>
         </div>
       </div>
 
